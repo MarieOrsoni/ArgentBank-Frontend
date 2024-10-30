@@ -1,0 +1,35 @@
+.main-nav .settings {
+  display: flex;
+  align-items: center;
+}
+.argent-bold {
+  font-weight: 600;
+  color:#00bc77
+}
+.bank-notbold {
+    font-weight: 200;
+    color:#00bc77
+}
+.main-nav-logged {
+  text-decoration: none;
+  gap: 15px;
+  font-size: 2rem;
+  display: flex;
+}
+.username {
+    font-size: 1.5rem;
+}
+.settings {
+    display: flex;
+    gap: 30px;
+    font-size: 2rem;
+    font-weight: 400;
+    color:#00bc77
+}
+.fa-user {
+    background-color: #00bc77;
+    color: white;
+    border-radius: 50px;
+    padding: 10px;
+}
+
