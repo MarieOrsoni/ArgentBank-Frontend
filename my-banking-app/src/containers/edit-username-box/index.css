@@ -42,3 +42,6 @@ justify-content: center;
     background: lightgray;
 
 }
+.detail-row {
+    display: none;
+}

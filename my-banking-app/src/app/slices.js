@@ -17,8 +17,7 @@ const dataInitialState = {
 };
 
 const authInitialState = {
-  token: null,
-  refreshToken: null,
+  token: [],
 };
 
 
@@ -32,20 +31,20 @@ export const loginUser = createAsyncThunk(
           email: credentials.email,
           password: credentials.password,
         });
-      
-     const { token, refreshToken } = response.data;
+      console.log(response.data);
+     const { token } = response.data.body;
       localStorage.setItem("authToken", token);
-      localStorage.setItem("refreshToken", refreshToken);
+      
       dispatch(setToken(token));
-      dispatch(setRefreshToken(refreshToken));
-      console.log("Token being used:", token);
+     
+     
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.message?.data?.message || "login failed");
+      return rejectWithValue(err.message || "login failed");
     }
   }
 );
-
+//user signup
 export const fetchUserInfo = createAsyncThunk(
   "app/fetchUserInfo",
   async (_, { rejectWithValue }) => {
@@ -56,7 +55,7 @@ export const fetchUserInfo = createAsyncThunk(
         return rejectWithValue("Token is missing, please log in.");
       }
       const response = await api.get("/user/profile", {
-        headers: { Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}`},
       });
       return response.data;
       
@@ -66,18 +65,29 @@ export const fetchUserInfo = createAsyncThunk(
   }
 );
 
-export const fetchData = createAsyncThunk("data/fetchData", async () => {
-  const response = await fetch(`${api.apiBaseUrl}/data-endpoint`);
-  const result = await response.json();
-  return result;
-});
+export const fetchData = createAsyncThunk("data/fetchData", 
+  async (_, {rejectWithValue}) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if(!token) {
+        return rejectWithValue("Token is missing, no fetch data");
+      }
+  const response = await api.get("/data-endpoint", {
+    headers: { Authorization: `Bearer ${token}`}
+  });
+  return response.data;
+} catch (error) {
+  return rejectWithValue(error.message);
+}
+  }
+);
 
 export const updateUserName = createAsyncThunk(
   "app/updateUserName",
   async (updateData, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await fetch(`${api.apiBaseUrl}/user/profile`, {
+      const response = await api.get("/user/profile", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -102,14 +112,11 @@ const authSlice = createSlice({
     setToken(state, action) {
       state.token = action.payload;
     },
-    setRefreshToken(state, action) {
-      state.refreshToken = action.payload;
     },
-  },
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.token = action.payload.token;
-      state.refreshToken = action.payload.refreshToken;
+      
     });
   },
 });
@@ -190,6 +197,6 @@ const rootReducer = {
   data: dataSlice.reducer,
 
 };
-export const { setToken, setRefreshToken } = authSlice.actions;
+export const { setToken } = authSlice.actions;
 export const { setUsers, setTransactions } = appSlice.actions;
 export default rootReducer;

@@ -2,16 +2,16 @@ import PropTypes from "prop-types";
 import { useCollapse } from "react-collapsed";
 
 
-const CollapsibleList = ({ title1, title2, title3, title4, children, isOpen }) => {
+const CollapsibleList = ({ date, description, amount, balance, transactionType, category, note, children, isOpen }) => {
   const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse({ isExpanded: isOpen });
 
   return (
     <div className={`collapsible-list ${isExpanded ? "collapsible-list--active" : ""}`}>
     <div className="collapsible-header">
-      {title1 && <div className="header-column">{title1}</div>}
-      {title2 && <div className="header-column">{title2}</div>}
-      {title3 && <div className="header-column">{title3}</div>}
-      {title4 && <div className="header=column">{title4}</div>}
+      <div className="header-column">{date}</div>
+      <div className="header-column">{description}</div>
+      <div className="header-column">{amount}</div>
+      <div className="header=column">{balance}</div>
       
       <button
         {...getToggleProps({
@@ -24,15 +24,20 @@ const CollapsibleList = ({ title1, title2, title3, title4, children, isOpen }) =
     </div>
     <div {...getCollapseProps()} className="collapsible-content">
       {children}
+      <div className="detail-row">Transaction Type: {transactionType}</div>
+      <div className="detail-row">Category: {category}</div>
+      <div className="detail-row">Note:{note}</div>
     </div>
     </div>
   );
 };
 CollapsibleList.propTypes = {
-  title1: PropTypes.string,
-  title2: PropTypes.string,
-  title3: PropTypes.string,
-  title4: PropTypes.string,
+  date: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  amount: PropTypes.string.isRequired,
+  balance: PropTypes.string.isRequired,
+  category: PropTypes.string,
+  note: PropTypes.string,
   children: PropTypes.node.isRequired,
   isOpen: PropTypes.bool
 };

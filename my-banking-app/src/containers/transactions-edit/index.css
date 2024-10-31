@@ -1,0 +1,12 @@
+.fa-xmark { 
+    font-size: 80px;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+}
+.list-headers {
+    display: flex;
+    justify-content: space-between;
+}

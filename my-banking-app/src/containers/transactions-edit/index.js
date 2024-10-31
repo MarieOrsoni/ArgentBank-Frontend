@@ -1,19 +1,47 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchData } from "../../app/slices";
+import React, { useState } from "react";
+//import { useSelector, useDispatch } from "react-redux";
+//import { fetchData } from "../../app/slices";
 import CollapsibleList from "../../components/dropdown";
+import "./index.css";
 
 const DetailedStatement = () => {
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.data.items);
-  const dataStatus = useSelector((state) => state.data.status);
-  const error = useSelector((state) => state.data.error);
-
-  useEffect(() => {
-    if (dataStatus === "idle") {
-      dispatch(fetchData());
+ // const dispatch = useDispatch();
+ // const data = useSelector((state) => state.data.items);
+ // const dataStatus = useSelector((state) => state.data.status);
+ 
+  const [transactions] = useState([
+    {
+      date: "2023-10-01",
+      description: "Grocery Store",
+      amount: "$50.00",
+      balance: "$950.00",
+      transactionType: "Debit",
+      category: "Groceries",
+      note: "Weekly groceries shopping",
+    },
+    {
+      date: "2023-10-02",
+      description: "Salary",
+      amount: "$2000.00",
+      balance: "$2950.00",
+      transactionType: "Credit",
+      category: "Income",
+      note: "Monthly salary",
     }
-  }, [dataStatus, dispatch]);
+  ]);
+
+  
+
+  /*useEffect(() => {
+    // Mock API call to fetch transactions
+    const fetchTransactions = async () => {
+      const response = await fetch("/api/transactions"); // Replace with your API endpoint
+      const data = await response.json();
+      setTransactions(data);
+    };
+
+    fetchTransactions();
+  }, []);*/
 
   return (
     <>
@@ -24,30 +52,36 @@ const DetailedStatement = () => {
           <p className="account-amount-description">Available Balance</p>
         </div>
         <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
+        <i className="fa-solid fa-xmark"></i>
         </div>
-
-        <CollapsibleList
-          title1="Date"
-          title2="Description"
-          title3="Amount"
-          title4="Balance"
-          isOpen={false}
-        >
-          {dataStatus === "loading" && <div>Loading...</div>}
-          {dataStatus === "succeeded" && (
-            <ul>
-              {data.map((item, index) => (
-                <li key={index}>
-                  {item.title} - {item.description}
-                </li>
-              ))}
-            </ul>
-          )}
-          {dataStatus === "failed" && <div>{error}</div>}
-        </CollapsibleList>
-      </section>
+        </section>
+        <div className="list-headers">
+          <p>Date</p>
+          <p>Description</p>
+          <p>Amount</p>
+          <p>Balance</p>
+        </div>
+        <div className="transaction-container"> 
+      {transactions.map((transaction, index)=>(
+        
+          <CollapsibleList
+            key={index}
+            date={transaction.date}
+            description={transaction.description}
+            amount={transaction.amount}
+            balance={transaction.balance}
+            transactionType={transaction.transactionType}
+            category={transaction.category}
+            note={transaction.note}
+            isOpen={false} // Initially closed
+          />
+        ))}
+        </div>
     </>
-  );
-};
+    
+    );
+  };
+  
+     
+      
 export default DetailedStatement;

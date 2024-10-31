@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo, updateUserName } from "../../app/slices";
 import CollapsibleList from "./../../components/dropdown/index";
@@ -16,6 +16,7 @@ const EditUserNameBox = ({
 }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.app.user);
+  const [isOpen, setIopen] = useState(true);
   
 
   //to fetch user data
@@ -38,6 +39,7 @@ const EditUserNameBox = ({
 
   
   const closeBox = () => {
+    setIopen(false);
     setIsEditBoxOpen(false);
   };
 
@@ -45,7 +47,7 @@ const EditUserNameBox = ({
     <CollapsibleList
       className="edit-user-box"
       title="Edit Username"
-    
+      isOpen={isOpen}
     >
       <h1 className="title">Edit user info</h1>
       <form id="edit-box">
@@ -54,7 +56,7 @@ const EditUserNameBox = ({
           <input
             type="text"
             id="username"
-            value={userInfo.userName}
+            value={userName}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter new username"
           />

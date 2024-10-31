@@ -5,14 +5,14 @@ import "./../../Style/index.css";
 import "./index.css";
 
 const UserAccount = () => {
-  const [username, setUsername] = useState(" ");
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isEditBoxOpen, setIsEditBoxOpen] = useState(false);
   const originalTitle = "Welcome back";
 
   useEffect(() => {
-    setUsername("");
+    setUsername("userName");
   }, []);
 
   const handleEditButtonClick = () => {

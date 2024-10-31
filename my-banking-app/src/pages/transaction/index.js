@@ -6,7 +6,9 @@ function StatementDetails () {
     return(
         <> 
         <NavMenuUser/>
+        <main>
             <DetailedTransactions />
+        </main>
         </>
     )
 };
