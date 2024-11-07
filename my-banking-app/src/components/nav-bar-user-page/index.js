@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchUserInfo } from "../../app/Services/userSlice";
+import { fetchUserInfo } from "../../app/storeSlices/userSlice";
 import { Link } from "react-router-dom";
 import "./../../Style/index.css";
 import "./index.css";
 
 function NavMenuUser() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.app.user);
-  const [username, setUsername] = useState("");
-  
+  const user = useSelector((state) => state.user.user);
 
-   
-    useEffect(() => {
-      const token = localStorage.getItem("authToken");
-if (token) { 
+  const token = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    if (token && !user) {
       dispatch(fetchUserInfo());
-    } 
-     } , [dispatch]);
-  
-    useEffect(() => {
-      if (user && user.userName) {
-        setUsername(user.userName); 
-      }
-    }, [user]);
+    }
+  }, );
 
-    const handleLogout = () => {
-      localStorage.removeItem("authToken");
-      window.location.href = "/";
-      
-    };
- 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    window.location.href = "/";
+  };
 
   return (
     <header>
@@ -42,7 +32,7 @@ if (token) {
         </Link>
 
         <div className="settings">
-          <p className="username">{username}</p>
+          <p className="username">{user?.userName}</p>
           <i className="fa-regular fa-user"></i>
           <i className="fa-solid fa-gear"></i>
           <i className="fa-solid fa-power-off" onClick={handleLogout}></i>

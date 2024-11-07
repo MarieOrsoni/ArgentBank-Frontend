@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     users: [],
-    transactions: [],
+    
 };
 
 const appSlice = createSlice({
@@ -13,9 +13,7 @@ const appSlice = createSlice({
         setUsers: (state, action) => {
             state.users = action.payload;
         },
-        setTransactions: (state, action) => {
-            state.transactions = action.payload;
-        },
+        
     },
 });
 export const { setUsers, setTransactions } = appSlice.actions;

@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../Token.js";
+import api from "../axioConfig.js";
 
 //Initial state
 const initialState = {
   user: null,
-  status: 'idle',
+  status: "idle",
   error: null,
 };
 
@@ -25,7 +25,6 @@ export const fetchUserInfo = createAsyncThunk(
     }
   }
 );
-
 
 const userSlice = createSlice({
   name: "user",

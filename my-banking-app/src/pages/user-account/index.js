@@ -1,37 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { fetchUserInfo } from "../../app/Services/userSlice.js";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import NavMenuUser from "../../components/nav-bar-user-page/index.js";
 import EditUserNameBox from "../../containers/edit-username-box";
 import "./../../Style/index.css";
 import "./index.css";
-import { useDispatch, useSelector } from "react-redux";
 
 const UserAccount = () => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state)=> state.user.user);
+  const user = useSelector((state) => state.user.user);
   const [isEditBoxOpen, setIsEditBoxOpen] = useState(false);
-  
-  const initialUserState = {
-    userName: "",
-    firstName: "",
-    lastName: "",
-  };
-  const [user, setUser] = useState(initialUserState);
-
-  useEffect(()=> {
-    dispatch(fetchUserInfo());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (userInfo){
-      setUser({
-        userName: userInfo.userName || "",
-        firstName: userInfo.firstName || "",
-        lastName: userInfo.lastName || "",
-      });
-    }
-  }, [userInfo]);
-
 
   const handleEditButtonClick = () => {
     setIsEditBoxOpen(!isEditBoxOpen);
@@ -39,7 +15,7 @@ const UserAccount = () => {
 
   return (
     <>
-      <NavMenuUser username = {user.userName} />
+      <NavMenuUser />
       <main className="main_bg">
         <div className="header_black">
           {!isEditBoxOpen ? (
@@ -47,7 +23,7 @@ const UserAccount = () => {
               <h1>
                 Welcome back
                 <br />
-                {user.userName}!
+                {user?.userName}!
               </h1>
 
               <button className="edit-button" onClick={handleEditButtonClick}>
@@ -55,12 +31,7 @@ const UserAccount = () => {
               </button>
             </>
           ) : (
-            <EditUserNameBox
-              username={user.userName}
-              firstName={user.firstName}
-              lastName={user.lastName}
-              setIsEditBoxOpen={setIsEditBoxOpen}
-            />
+            <EditUserNameBox setIsEditBoxOpen={setIsEditBoxOpen} />
           )}
         </div>
         <h2 className="sr-only">Accounts</h2>
@@ -71,7 +42,7 @@ const UserAccount = () => {
             <p className="account-amount-description">Available Balance</p>
           </div>
           <div className="account-content-wrapper cta">
-          <i className="fa-solid fa-chevron-right"></i>
+            <i className="fa-solid fa-chevron-right"></i>
           </div>
         </section>
         <section className="account">
@@ -81,7 +52,7 @@ const UserAccount = () => {
             <p className="account-amount-description">Available Balance</p>
           </div>
           <div className="account-content-wrapper cta">
-          <i className="fa-solid fa-chevron-right"></i>
+            <i className="fa-solid fa-chevron-right"></i>
           </div>
         </section>
         <section className="account">
@@ -91,7 +62,7 @@ const UserAccount = () => {
             <p className="account-amount-description">Current Balance</p>
           </div>
           <div className="account-content-wrapper cta">
-          <i className="fa-solid fa-chevron-right"></i>
+            <i className="fa-solid fa-chevron-right"></i>
           </div>
         </section>
       </main>

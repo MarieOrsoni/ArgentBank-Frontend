@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo } from "../../app/Services/userSlice.js";
-import { updateUserName } from "./../../app/Services/updateUser.js";
+import { updateUserName } from "../../app/storeSlices/updateUserSlice.js";
 import CollapsibleList from "./../../components/dropdown/index";
 import "./../edit-username-box/index.css";
 import "./../../Style/index.css";
 
-
-const EditUserNameBox = ({ setIsEditBoxOpen}) => { 
-  const initialUserState = { 
-  firstName: "",
-  lastName: "",
-  userName: "",
+const EditUserNameBox = ({ setIsEditBoxOpen }) => {
+  const initialUserState = {
+    firstName: "",
+    lastName: "",
+    userName: "",
   };
 
   const dispatch = useDispatch();
@@ -19,22 +17,15 @@ const EditUserNameBox = ({ setIsEditBoxOpen}) => {
   const [isOpen, setIopen] = useState(true);
   const [user, setUser] = useState(initialUserState);
 
-  useEffect(() => { 
-    if (userInfo) { 
-    setUser({ 
-      userName: userInfo.userName || "", 
-      firstName: userInfo.firstName || "", 
-      lastName: userInfo.lastName || "", 
-    }); 
-  } 
-}, [userInfo]);
-
-  //to fetch user data
   useEffect(() => {
-    dispatch(fetchUserInfo());
-  }, [dispatch]);
-
-  
+    if (userInfo) {
+      setUser({
+        userName: userInfo.userName || "",
+        firstName: userInfo.firstName || "",
+        lastName: userInfo.lastName || "",
+      });
+    }
+  }, [userInfo]);
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
@@ -60,8 +51,8 @@ const EditUserNameBox = ({ setIsEditBoxOpen}) => {
             type="text"
             id="username"
             value={user.userName}
-            onChange={(e) => setUser({ ...user, userName: e.target.value})}
-            placeholder="Enter new username"
+            onChange={(e) => setUser({ ...user, userName: e.target.value })}
+            placeholder={user.userName}
           />
         </div>
         <div className="form-group">

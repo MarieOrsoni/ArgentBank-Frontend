@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../app/Services/loginSlice.js";
+import { loginUser } from "./../../app/storeSlices/loginSlice.js";
 
 import "./../../Style/index.css";
 
-  function LoginForm() { 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const loginStatus = useSelector((state) => state.auth.loginStatus);
-    const error = useSelector((state)=> state.auth.error);
+function LoginForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loginStatus = useSelector((state) => state.auth.loginStatus);
+  const error = useSelector((state) => state.auth.error);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +23,7 @@ import "./../../Style/index.css";
       navigate("/user-account");
     }
   }, [loginStatus, navigate]);
-  
-  
+
   return (
     <div className="sign-in-content">
       <i className="fa fa-user-circle sign-in-icon"></i>
