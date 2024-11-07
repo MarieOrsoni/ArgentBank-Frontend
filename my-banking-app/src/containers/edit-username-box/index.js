@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo, updateUserName } from "../../app/slices";
+import { fetchUserInfo } from "../../app/Services/userSlice.js";
+import { updateUserName } from "./../../app/Services/updateUser.js";
 import CollapsibleList from "./../../components/dropdown/index";
 import "./../edit-username-box/index.css";
 import "./../../Style/index.css";
 
-const EditUserNameBox = ({
-  userName,
-  setUsername,
-  firstName,
-  setFirstName,
-  lastName,
-  setLastName,
-  setIsEditBoxOpen,
-}) => {
+
+const EditUserNameBox = ({ setIsEditBoxOpen}) => { 
+  const initialUserState = { 
+  firstName: "",
+  lastName: "",
+  userName: "",
+  };
+
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.app.user);
+  const userInfo = useSelector((state) => state.user.user);
   const [isOpen, setIopen] = useState(true);
-  
+  const [user, setUser] = useState(initialUserState);
+
+  useEffect(() => { 
+    if (userInfo) { 
+    setUser({ 
+      userName: userInfo.userName || "", 
+      firstName: userInfo.firstName || "", 
+      lastName: userInfo.lastName || "", 
+    }); 
+  } 
+}, [userInfo]);
 
   //to fetch user data
   useEffect(() => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
 
-  //update form inputs
-  useEffect(() => {
-    if (userInfo) {
-      setFirstName(userInfo.firstName || "");
-      setLastName(userInfo.lastName || "");
-    }
-  }, [userInfo, setFirstName, setLastName]);
+  
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
-    dispatch(updateUserName({ userName, firstName, lastName }));
+    dispatch(updateUserName(user));
   };
 
-  
   const closeBox = () => {
     setIopen(false);
     setIsEditBoxOpen(false);
@@ -56,29 +59,31 @@ const EditUserNameBox = ({
           <input
             type="text"
             id="username"
-            value={userName}
-            onChange={(e) => setUsername(e.target.value)}
+            value={user.userName}
+            onChange={(e) => setUser({ ...user, userName: e.target.value})}
             placeholder="Enter new username"
           />
         </div>
         <div className="form-group">
           <label htmlFor="firstname">First name:</label>
-          <input className="no-edit-field"
+          <input
+            className="no-edit-field"
             type="text"
             id="firstname"
-            value={firstName}
+            value={user.firstName}
             readOnly
-            placeholder={lastName}
+            placeholder={user.lastName}
           />
         </div>
         <div className="form-group">
           <label htmlFor="lastname">Last name:</label>
-          <input className="no-edit-field"
+          <input
+            className="no-edit-field"
             type="text"
             id="lastname"
-            value={lastName}
+            value={user.lastName}
             readOnly
-            placeholder={lastName}
+            placeholder={user.lastName}
           />
         </div>
         <div className="form-button">
@@ -89,7 +94,7 @@ const EditUserNameBox = ({
           >
             Save
           </button>
-          <button onClick={closeBox} className="edit-button" type="reset" >
+          <button onClick={closeBox} className="edit-button" type="reset">
             Cancel
           </button>
         </div>

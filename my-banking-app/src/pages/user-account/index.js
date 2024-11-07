@@ -1,19 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { fetchUserInfo } from "../../app/Services/userSlice.js";
 import NavMenuUser from "../../components/nav-bar-user-page/index.js";
 import EditUserNameBox from "../../containers/edit-username-box";
 import "./../../Style/index.css";
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserAccount = () => {
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state)=> state.user.user);
   const [isEditBoxOpen, setIsEditBoxOpen] = useState(false);
-  const originalTitle = "Welcome back";
+  
+  const initialUserState = {
+    userName: "",
+    firstName: "",
+    lastName: "",
+  };
+  const [user, setUser] = useState(initialUserState);
+
+  useEffect(()=> {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
 
   useEffect(() => {
-    setUsername("userName");
-  }, []);
+    if (userInfo){
+      setUser({
+        userName: userInfo.userName || "",
+        firstName: userInfo.firstName || "",
+        lastName: userInfo.lastName || "",
+      });
+    }
+  }, [userInfo]);
+
 
   const handleEditButtonClick = () => {
     setIsEditBoxOpen(!isEditBoxOpen);
@@ -21,15 +39,15 @@ const UserAccount = () => {
 
   return (
     <>
-      <NavMenuUser username={username} />
+      <NavMenuUser username = {user.userName} />
       <main className="main_bg">
         <div className="header_black">
           {!isEditBoxOpen ? (
             <>
               <h1>
-                {originalTitle}
+                Welcome back
                 <br />
-                {username}!
+                {user.userName}!
               </h1>
 
               <button className="edit-button" onClick={handleEditButtonClick}>
@@ -38,12 +56,9 @@ const UserAccount = () => {
             </>
           ) : (
             <EditUserNameBox
-              username={username}
-              setUsername={setUsername}
-              firstName={firstName}
-              setFirstName={setFirstName}
-              lastName={lastName}
-              setLastName={setLastName}
+              username={user.userName}
+              firstName={user.firstName}
+              lastName={user.lastName}
               setIsEditBoxOpen={setIsEditBoxOpen}
             />
           )}

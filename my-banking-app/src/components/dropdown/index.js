@@ -8,10 +8,10 @@ const CollapsibleList = ({ date, description, amount, balance, transactionType, 
   return (
     <div className={`collapsible-list ${isExpanded ? "collapsible-list--active" : ""}`}>
     <div className="collapsible-header">
-      <div className="header-column">{date}</div>
-      <div className="header-column">{description}</div>
-      <div className="header-column">{amount}</div>
-      <div className="header=column">{balance}</div>
+    <div className="header-column">{date}</div>
+    <div className="header-column">{description}</div>
+    <div className="header-column">{amount}</div> 
+    <div className="header-column">{balance}</div>
       
       <button
         {...getToggleProps({
@@ -32,13 +32,13 @@ const CollapsibleList = ({ date, description, amount, balance, transactionType, 
   );
 };
 CollapsibleList.propTypes = {
-  date: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  balance: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  description: PropTypes.string,
+  amount: PropTypes.string,
+  balance: PropTypes.string,
   category: PropTypes.string,
   note: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   isOpen: PropTypes.bool
 };
 

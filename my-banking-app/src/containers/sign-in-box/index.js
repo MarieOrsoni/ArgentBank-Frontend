@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../app/slices";
+import { loginUser } from "../../app/Services/loginSlice.js";
 
 import "./../../Style/index.css";
 
   function LoginForm() { 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const loginStatus = useSelector((state) => state.app.loginStatus);
-    const error = useSelector((state)=> state.app.error);
+    const loginStatus = useSelector((state) => state.auth.loginStatus);
+    const error = useSelector((state)=> state.auth.error);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

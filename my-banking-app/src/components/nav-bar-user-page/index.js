@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserInfo } from "../../app/slices";
+
+import { fetchUserInfo } from "../../app/Services/userSlice";
 import { Link } from "react-router-dom";
 import "./../../Style/index.css";
 import "./index.css";
 
 function NavMenuUser() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.app.users);
+  const user = useSelector((state) => state.app.user);
   const [username, setUsername] = useState("");
   
 

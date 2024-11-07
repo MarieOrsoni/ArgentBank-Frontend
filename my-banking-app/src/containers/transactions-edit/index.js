@@ -2,12 +2,11 @@ import React, { useState } from "react";
 //import { useSelector, useDispatch } from "react-redux";
 //import { fetchData } from "../../app/slices";
 import CollapsibleList from "../../components/dropdown";
+
 import "./index.css";
 
 const DetailedStatement = () => {
- // const dispatch = useDispatch();
- // const data = useSelector((state) => state.data.items);
- // const dataStatus = useSelector((state) => state.data.status);
+
  
   const [transactions] = useState([
     {
@@ -30,19 +29,7 @@ const DetailedStatement = () => {
     }
   ]);
 
-  
-
-  /*useEffect(() => {
-    // Mock API call to fetch transactions
-    const fetchTransactions = async () => {
-      const response = await fetch("/api/transactions"); // Replace with your API endpoint
-      const data = await response.json();
-      setTransactions(data);
-    };
-
-    fetchTransactions();
-  }, []);*/
-
+ 
   return (
     <>
       <section className="account">
@@ -55,6 +42,7 @@ const DetailedStatement = () => {
         <i className="fa-solid fa-xmark"></i>
         </div>
         </section>
+        <section className="statement"> 
         <div className="list-headers">
           <p>Date</p>
           <p>Description</p>
@@ -77,7 +65,10 @@ const DetailedStatement = () => {
           />
         ))}
         </div>
+        </section>
+
     </>
+    
     
     );
   };

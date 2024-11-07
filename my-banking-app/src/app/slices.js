@@ -1,14 +1,18 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, combineReducers } from "@reduxjs/toolkit";
+import authReducer from "./Services/loginSlice.js";
+import appReducer from "./Services/appSlice.js";
+import useReducer  from "./Services/userSlice.js";
 
 import api from "./Token.js";
 
+
 // Initial states
-const appInitialState = {
+/*const appInitialState = {
   users: [],
   transactions: [],
   loginStatus: "idle",
   error: null,
-};
+};*/
 
 const dataInitialState = {
   items: [],
@@ -16,13 +20,13 @@ const dataInitialState = {
   error: null,
 };
 
-const authInitialState = {
+/*const authInitialState = {
   token: [],
-};
+};*/
 
 
 // Thunk to handle login verification
-export const loginUser = createAsyncThunk(
+/*export const loginUser = createAsyncThunk(
   "app/loginUser",
   async (credentials, { dispatch, rejectWithValue }) => {
     try {
@@ -36,34 +40,13 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("authToken", token);
       
       dispatch(setToken(token));
-     
-     
       return response.data;
     } catch (err) {
       return rejectWithValue(err.message || "login failed");
     }
   }
-);
-//user signup
-export const fetchUserInfo = createAsyncThunk(
-  "app/fetchUserInfo",
-  async (_, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      console.log("Token being used:", token);
-      if (!token) {
-        return rejectWithValue("Token is missing, please log in.");
-      }
-      const response = await api.get("/user/profile", {
-        headers: { Authorization: `Bearer ${token}`},
-      });
-      return response.data;
-      
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+);*/
+
 
 export const fetchData = createAsyncThunk("data/fetchData", 
   async (_, {rejectWithValue}) => {
@@ -82,30 +65,9 @@ export const fetchData = createAsyncThunk("data/fetchData",
   }
 );
 
-export const updateUserName = createAsyncThunk(
-  "app/updateUserName",
-  async (updateData, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const response = await api.get("/user/profile", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateData),
-      });
-      if (!response.ok) {
-        throw new Error("Updating user info failed");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-const authSlice = createSlice({
+
+
+/*const authSlice = createSlice({
   name: "authToken",
   initialState: authInitialState,
   reducers: {
@@ -119,9 +81,9 @@ const authSlice = createSlice({
       
     });
   },
-});
+});*/
 
-const appSlice = createSlice({
+/*const appSlice = createSlice({
   name: "app",
   initialState: appInitialState,
   reducers: {
@@ -145,31 +107,10 @@ const appSlice = createSlice({
         state.loginStatus = "failed";
         state.error = action.payload;
       })
-      .addCase(fetchUserInfo.pending, (state) => {
-        state.loginStatus = "loading";
-      })
-      .addCase(fetchUserInfo.fulfilled, (state, action) => {
-        state.loginStatus = "succeeded";
-        state.users = action.payload;
-      })
-      .addCase(fetchUserInfo.rejected, (state, action) => {
-        state.loginStatus = "failed";
-        state.error = action.payload;
-      })
-      .addCase(updateUserName.pending, (state) => {
-        state.loginStatus = "loading";
-        state.error = null;
-      })
-      .addCase(updateUserName.fulfilled, (state, action) => {
-        state.loginStatus = "succeeded";
-        state.users = action.payload;
-      })
-      .addCase(updateUserName.rejected, (state, action) => {
-        state.loginStatus = "failed";
-        state.users = action.payload;
-      });
+    
+     
   },
-});
+});*/
 
 const dataSlice = createSlice({
   name: "data",
@@ -191,12 +132,13 @@ const dataSlice = createSlice({
   },
 });
 
-const rootReducer = {
-  authToken: authSlice.reducer,
-  app: appSlice.reducer,
+const rootReducer = combineReducers ({
+  auth: authReducer,
+  app: appReducer,
   data: dataSlice.reducer,
+  user: useReducer,
+  
+  
+});
 
-};
-export const { setToken } = authSlice.actions;
-export const { setUsers, setTransactions } = appSlice.actions;
 export default rootReducer;
