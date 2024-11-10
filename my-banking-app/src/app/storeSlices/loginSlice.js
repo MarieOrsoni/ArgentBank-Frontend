@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../axioConfig.js";
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("authToken") || null,
+  isAuthenticated: !!localStorage.getItem("authToken"),
   loginStatus: "idle",
   error: null,
 };
@@ -20,7 +21,8 @@ export const loginUser = createAsyncThunk(
       const { token } = response.data.body;
       localStorage.setItem("authToken", token);
       dispatch(setToken(token));
-      return response.data;
+      return token;
+      //return response.data;
     } catch (err) {
       return rejectWithValue(err.message || "login failed");
     }
@@ -33,9 +35,11 @@ const authSlice = createSlice({
   reducers: {
     setToken(state, action) {
       state.token = action.payload;
+      state.isAuthenticated = true;
     },
     logout(state) {
       state.token = null;
+      state.isAuthenticated = false;
       localStorage.removeItem("authToken");
     },
   },
@@ -49,6 +53,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loginStatus = "succeeded";
         state.token = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = "failed";

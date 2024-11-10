@@ -11,12 +11,13 @@ function NavMenuUser() {
   const user = useSelector((state) => state.user.user);
 
   const token = localStorage.getItem("authToken");
+  const userStatus = useSelector((state) => state.user.status);
 
   useEffect(() => {
-    if (token && !user) {
+    if (token && userStatus === "idle") {
       dispatch(fetchUserInfo());
     }
-  }, );
+  }, [token, userStatus, dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");

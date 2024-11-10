@@ -35,9 +35,9 @@ const updateUserSlice = createSlice({
   name: "updateName",
   initialState,
   reducers: {
-    resetUserState: (state) => {
+    /*resetUserState: (state) => {
       Object.assign(state, initialState);
-    },
+    },*/
   },
   extraReducers: (builder) => {
     builder
@@ -47,7 +47,7 @@ const updateUserSlice = createSlice({
       })
       .addCase(updateUserName.fulfilled, (state, action) => {
         state.loginStatus = "succeeded";
-        state.users = action.payload.userName;
+        state.user = action.payload;
       })
       .addCase(updateUserName.rejected, (state, action) => {
         state.loginStatus = "failed";

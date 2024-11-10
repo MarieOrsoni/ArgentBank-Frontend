@@ -4,18 +4,17 @@ import { updateUserName } from "../../app/storeSlices/updateUserSlice.js";
 import CollapsibleList from "./../../components/dropdown/index";
 import "./../edit-username-box/index.css";
 import "./../../Style/index.css";
+import { fetchUserInfo } from "../../app/storeSlices/userSlice.js";
 
 const EditUserNameBox = ({ setIsEditBoxOpen }) => {
-  const initialUserState = {
-    firstName: "",
-    lastName: "",
-    userName: "",
-  };
-
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.user);
   const [isOpen, setIopen] = useState(true);
-  const [user, setUser] = useState(initialUserState);
+  const [user, setUser] = useState({
+    userName: userInfo?.userName || "",
+    firstName: userInfo?.firstName || "",
+    lastName: userInfo?.lastName || "",
+  });
 
   useEffect(() => {
     if (userInfo) {
@@ -29,7 +28,9 @@ const EditUserNameBox = ({ setIsEditBoxOpen }) => {
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
-    dispatch(updateUserName(user));
+    dispatch(updateUserName(user)).then(() => {
+      dispatch(fetchUserInfo());
+    });
   };
 
   const closeBox = () => {
