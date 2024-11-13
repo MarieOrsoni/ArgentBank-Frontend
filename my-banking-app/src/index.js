@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "./app/storeSlices/storeSlices";
 import App from "./app/App";
 import reportWebVitals from "./reportWebVitals";
-import Footer from "./components/footer";
+import Footer from "./containers/footer";
 
 import "./Style/index.css";
 

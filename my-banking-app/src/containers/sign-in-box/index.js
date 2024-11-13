@@ -9,15 +9,31 @@ function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginStatus = useSelector((state) => state.auth.loginStatus);
-  const error = useSelector((state) => state.auth.error);
+  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [validationError, setValidationError] = useState("");
+  const validateForm = () => {
+    if (!email || !password) {
+      setValidationError("Please enter both email and password.");
+      return false;
+    }
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      setValidationError("Please enter a valid email address.");
+      return false;
+    }
+    setValidationError("");
+    return true;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    if (validateForm()) {
+      dispatch(loginUser({ email, password }));
+    }
   };
+
   useEffect(() => {
     if (loginStatus === "succeeded") {
       navigate("/user-account");
@@ -56,7 +72,12 @@ function LoginForm() {
           Sign In
         </button>
         {loginStatus === "loading" && <p>Loading...</p>}
-        {loginStatus === "failed" && <p>Error: {error}</p>}
+        {validationError && <p className="error-message">{validationError}</p>}
+        {loginStatus === "failed" && (
+          <p className="error-message">
+            Incorrect email or password. Please try again.
+          </p>
+        )}
       </form>
     </div>
   );

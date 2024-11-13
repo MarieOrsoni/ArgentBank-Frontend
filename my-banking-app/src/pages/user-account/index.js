@@ -15,7 +15,9 @@ const UserAccount = () => {
 
   return (
     <>
+    <header>
       <NavMenuUser />
+      </header>
       <main className="main_bg">
         <div className="header_black">
           {!isEditBoxOpen ? (

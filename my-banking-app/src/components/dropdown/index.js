@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useCollapse } from "react-collapsed";
 
 
-const CollapsibleList = ({ date, description, amount, balance, transactionType, category, note, children, isOpen }) => {
+const CollapsibleList = ({ date, description, amount, balance, transactionId, category, note, children, isOpen }) => {
   const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse({ isExpanded: isOpen });
 
   return (
@@ -24,7 +24,7 @@ const CollapsibleList = ({ date, description, amount, balance, transactionType, 
     </div>
     <div {...getCollapseProps()} className="collapsible-content">
       {children}
-      <div className="detail-row">Transaction Type: {transactionType}</div>
+      <div className="detail-row">Transaction Type: {transactionId}</div>
       <div className="detail-row">Category: {category}</div>
       <div className="detail-row">Note:{note}</div>
     </div>

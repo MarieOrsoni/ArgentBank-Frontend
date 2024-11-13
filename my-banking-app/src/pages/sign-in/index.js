@@ -7,7 +7,9 @@ import "./index.css";
 function SignIn() {
   return (
     <> 
+    <header>
     <NavBar/> 
+    </header>
     <main className="sign-in-dark">
       <LoginForm />
     </main>
