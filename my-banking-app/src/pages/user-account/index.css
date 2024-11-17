@@ -1,7 +1,7 @@
-.fa-chevron-right {
-    font-size: 70px;
-
-}
 .header_black {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+}
+.header {
+  margin: 20px auto;
+  padding-top: 30px;
 }

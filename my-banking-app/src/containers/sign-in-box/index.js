@@ -9,11 +9,11 @@ function LoginForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginStatus = useSelector((state) => state.auth.loginStatus);
-  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validationError, setValidationError] = useState("");
+
   const validateForm = () => {
     if (!email || !password) {
       setValidationError("Please enter both email and password.");
@@ -27,10 +27,14 @@ function LoginForm() {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(loginUser({ email, password }));
+      const result = dispatch(loginUser({ email, password })).unwrap();
+      if (result.token) {
+        localStorage.setItem("authToken", result.token);
+        navigate("/user-account");
+      }
     }
   };
 

@@ -1,47 +1,49 @@
 .collapsible__header {
-    display: none;
+  display: none;
 }
 .title {
-    font-weight: 300;
+  font-weight: 300;
 }
 .collapsible-list--active {
-display: grid;
-gap: 10px;
-margin: 20px auto;
-justify-content: center;
+  display: grid;
+  gap: 10px;
+  margin: 20px auto;
+  justify-content: center;
+  background: white;
+  width: 35%;
+  height: 300px;
+  color: black;
 }
 .form-group {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  margin-bottom: 10px;
 }
 .form-button {
-    display: flex;
-    gap: 10px;
-    grid-row: span 2;
-    margin-left: -10px;
-    margin-right: -10px;
-    width: calc(100% + 20px);
-    
+  display: flex;
+  gap: 10px;
+  grid-row: span 2;
+  margin-left: -10px;
+  margin-right: -10px;
+  width: calc(100% + 20px);
 }
-.header_black {
-    text-align: center;
-    margin: 0 auto;
+.header {
+  text-align: center;
+  margin: 0 auto;
 }
 .form-button .edit-button {
-    width: 50%;
+  width: 50%;
 }
 .form-group input {
-    border-radius: 5px;
-    padding: 5px;
-    border-width: 1px;
-    border-style: solid;
+  border-radius: 5px;
+  padding: 5px;
+  border-width: 1px;
+  border-style: solid;
 }
 .no-edit-field {
-    background: lightgray;
-
+  background: lightgray;
 }
 .detail-row {
-    display: none;
+  display: none;
 }
